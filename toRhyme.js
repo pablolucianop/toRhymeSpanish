@@ -1,6 +1,6 @@
 //SPANISH WORD ANALYZER
 //select the word to analize or 'aW'
-var analizedWordOriginal = "notÁs"
+var analizedWordOriginal = "riugggoitii"
 var analizedWord = analizedWordOriginal.toLowerCase()
 
 var AlphabetEs= ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','ñ','o','p','q','r','s','t','u','v','w','x','y','z']
@@ -100,9 +100,38 @@ var aWindexOfVowels = indexOfVowels(aWvowelOrConsonant)
 console.log(aWindexOfVowels, 'aWindexOfVowels')
 
 //take care of diptongos
+function findDiptongos(aWSplitted){
+	var diptongosIndex = []
+	for (var i = 0; i < aWSplitted.length; i++) {
+		//finds if there is a closed vowel
+		if (aWSplitted[i] === 'i' || aWSplitted[i] === 'u' ) {
+			for (var e = 0; e < vowels.length; e++) {
+				//finds if there is a vowel before the closed vowel
+				if (aWSplitted[i-1]=== vowels[e] ) {
+				console.log('hay dddiipppp,  ', aWSplitted[i-1],aWSplitted[i+1] )
+				diptongosIndex.push(i-1)
+				//finds if there is a vowel after the closed vowel
+				} else if (aWSplitted[i+1]=== vowels[e]){
+					console.log('hay dddiipppp vocal abierta despues,  ', aWSplitted[i-1],aWSplitted[i+1] )
+					diptongosIndex.push(i)
+				}
+			}
+		}
+	}
+
+	//eliminates duplicates caused by two closed vowels diptongos
+	uniqueArray = diptongosIndex.filter(function(item, pos) {
+	    return diptongosIndex.indexOf(item) == pos;
+	})
+
+	return uniqueArray
+}
+
+console.log('hay dddiipppp',findDiptongos(aWSplitted))
 
 //hay una vocal debil, y si la hay, está al lado de otra vocal
 
+//take care of triptongos
 
 //take care of hiatos
 
