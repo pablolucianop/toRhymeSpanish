@@ -185,8 +185,9 @@ console.log('////////////////////////')
 
 
 
-function cutInSyllable(analizedWord){
-
+function cutInSyllable(analizedWordArr){
+	var wordProcess  =[]
+	var analizedWord = analizedWordArr[analizedWordArr.length-1]
 	var firstVowelIndex = aWanalysis(analizedWord).aWindexOfVowels[0]
 	var firstHiatoIndex = aWanalysis(analizedWord).indexOfHiatos[0]
 	var firstDiptongoIndex = aWanalysis(analizedWord).indexOfDiptongos[0]
@@ -195,6 +196,11 @@ function cutInSyllable(analizedWord){
 	var wordBeingCut = null
 	var firstSyllable = null
 	console.log(firstHiatoIndex)
+
+//push already cut sylables in to te returned variable
+	for (var i = 0; i+1 < analizedWordArr.length; i++) {
+		wordProcess.push(analizedWordArr[i])
+	}
 
 	if (firstVowelIndex === firstHiatoIndex ){
 		firstSyllable = analizedWord.substring(0,firstHiatoIndex+1);
@@ -207,11 +213,28 @@ function cutInSyllable(analizedWord){
 		firstSyllable = analizedWord.substring(0,secondVowelIndex-1);
 		wordBeingCut= analizedWord.substring(secondVowelIndex-1);
 	}
-	var wordProcess  =[firstSyllable, wordBeingCut]
+
+	
+	wordProcess.push(firstSyllable)
+	wordProcess.push(wordBeingCut)
+
 	return wordProcess
 }
 
-console.log(cutInSyllable('cardo'))
-
-
+var wordKing = [ 'esdrujulo']
+// var wordKing = ['perr', 'o', 'esdrujulo']
+// var aWtemporal = null
+// for (var i = 0; i < 4; i++) {
+	// if (i=== 1) {
+// 			console.log(111)
+	aWtemporal = cutInSyllable(wordKing) 
+console.log(aWtemporal)
+	// } 
+// else {
+	// var aWtemporal12 = cutInSyllable(aWtemporal)	
+	// aWtemporal = aWtemporal1
+	// }
+// console.log()
+	
+// }
 
