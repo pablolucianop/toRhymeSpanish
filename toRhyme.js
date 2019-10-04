@@ -20,13 +20,13 @@ var normalizedWord= analizedWord.toLowerCase().split('')
 return normalizedWord
 }
 
-//splits the word letter by letter 
+// takes a string and returns it splitted letter by letter 
 function aWsplittedF (analizedWord){
 	 var analizedWordSplit = analizedWord.split('')
 	 return analizedWordSplit
 }
 
-//it distinguish between consonants , open vowels and closed vowals, making ['c', 'oV', 'cV'...]
+// takes a string and returns an array that distinguish between consonants , open vowels and closed vowals, making ['c', 'oV', 'cV'...]
 function VowelOrConsonant(aWSplitted){
 	var wordConsonantVowel=[]
 	var analizedWordLength = aWSplitted.length
@@ -40,21 +40,17 @@ function VowelOrConsonant(aWSplitted){
 				//for every closed vowel
 				for (var u = 0; u < closedVowels.length; u++) {
 					if (closedVowels[u] === aWSplitted[i]) {
-						//console.log(aWSplitted[i] + ' Closed vowel')
 						isVowel = true
 						wordConsonantVowel.push('vC');
 				//for every Open vowel
 					} else if (isVowel != true){
-						//console.log(aWSplitted[i] + 'Open vowel')
 						isVowel = true
 						wordConsonantVowel.push('vO');
 					}
 				}
 
 			} else {
-				// //console.log(aWSplitted[i] + ' esConsonante')
 				if (vowels[e] === vowels[vowels.length -1] && !isVowel) {
-					//console.log(aWSplitted[i] + ' consonant')
 					wordConsonantVowel.push('c');
 				}
 				}
@@ -85,7 +81,6 @@ function findDiptongos(aWSplitted){
 			for (var e = 0; e < vowels.length; e++) {
 				//finds if there is a vowel before the closed vowel
 				if (aWSplitted[i-1]=== vowels[e] ) {
-				//console.log('hay diptongo,  ', aWSplitted[i-1],aWSplitted[i+1] )
 				diptongosIndex.push(i-1)
 				//finds if there is a vowel after the closed vowel
 				} else if (aWSplitted[i+1]=== vowels[e]){
@@ -178,8 +173,7 @@ function aWanalysis(analizedWord){
 	}
 	return analizedWordObj
 }
-console.log('////////////////////////')
-// console.log( aWanalysis('perroroi'))
+
 //take care of triptongos
 
 
@@ -230,20 +224,37 @@ function cutASyllable(analizedWord){
 	}
 
 
-var wordKing =  'carbón'
-// var wordKing = ['perr', 'o', 'esdrujulo']
-// var aWtemporal = null
-// for (var i = 0; i < 4; i++) {
-	// if (i=== 1) {
-// 			console.log(111)
-	aWtemporal = cutASyllable(wordKing) 
-console.log(aWtemporal)
-	// } 
-// else {
-	// var aWtemporal12 = cutASyllable(aWtemporal)	
-	// aWtemporal = aWtemporal1
-	// }
-// console.log()
-	
-// }
+var wordKing =  'piano'
 
+
+//recives a string and returs an array of its sylables
+function cutAWordInSylables(analizedWord){
+	var IsThereLeftToCut = true
+	var splittedWord = []
+	var leftToCut 
+
+	var cutted = cutASyllable(analizedWord)
+
+	if(cutted.length === 1){IsThereLeftToCut = false }
+
+	splittedWord.push(cutted[0])
+	leftToCut = cutted[1]
+	
+
+	function cutAgaing(){
+	 	cutted = cutASyllable(leftToCut)
+	 	splittedWord.push(cutted[0])
+	 	leftToCut = cutted[1]
+	 	if(cutted.length === 1){ IsThereLeftToCut = false}
+	 	if (IsThereLeftToCut) {cutAgaing()}	
+	 }
+	 cutAgaing()
+
+
+ return  splittedWord
+
+
+}
+
+	aWtemporal = cutAWordInSylables(wordKing) 
+console.log(aWtemporal)
