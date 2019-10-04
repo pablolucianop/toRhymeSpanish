@@ -184,10 +184,10 @@ console.log('////////////////////////')
 
 
 
-
-function cutInSyllable(analizedWordArr){
-	var wordProcess  =[]
-	var analizedWord = analizedWordArr[analizedWordArr.length-1]
+//recives a string and returns an array, with the ['first Sylable', 'the rest of the string, left to beeing cut']
+function cutASyllable(analizedWord){
+	// var wordProcess  =[]
+	// var analizedWord = analizedWordArr[analizedWordArr.length-1]
 	var firstVowelIndex = aWanalysis(analizedWord).aWindexOfVowels[0]
 	var firstHiatoIndex = aWanalysis(analizedWord).indexOfHiatos[0]
 	var firstDiptongoIndex = aWanalysis(analizedWord).indexOfDiptongos[0]
@@ -198,9 +198,9 @@ function cutInSyllable(analizedWordArr){
 	console.log(firstHiatoIndex)
 
 //push already cut sylables in to te returned variable
-	for (var i = 0; i+1 < analizedWordArr.length; i++) {
-		wordProcess.push(analizedWordArr[i])
-	}
+	// for (var i = 0; i+1 < analizedWordArr.length; i++) {
+	// 	wordProcess.push(analizedWordArr[i])
+	// }
 
 	if (firstVowelIndex === firstHiatoIndex ){
 		firstSyllable = analizedWord.substring(0,firstHiatoIndex+1);
@@ -215,23 +215,32 @@ function cutInSyllable(analizedWordArr){
 	}
 
 	
-	wordProcess.push(firstSyllable)
-	wordProcess.push(wordBeingCut)
+	// wordProcess.push(firstSyllable)
+	// wordProcess.push(wordBeingCut)
+
+	if(firstSyllable === ''){
+		var wordProcess = [wordBeingCut]
+	}else if (firstSyllable === ''){
+		var wordProcess = [wordBeingCut]
+	} else {
+		var wordProcess = [firstSyllable ,wordBeingCut ]
+	}
 
 	return wordProcess
-}
+	}
 
-var wordKing = [ 'esdrujulo']
+
+var wordKing =  'carbón'
 // var wordKing = ['perr', 'o', 'esdrujulo']
 // var aWtemporal = null
 // for (var i = 0; i < 4; i++) {
 	// if (i=== 1) {
 // 			console.log(111)
-	aWtemporal = cutInSyllable(wordKing) 
+	aWtemporal = cutASyllable(wordKing) 
 console.log(aWtemporal)
 	// } 
 // else {
-	// var aWtemporal12 = cutInSyllable(aWtemporal)	
+	// var aWtemporal12 = cutASyllable(aWtemporal)	
 	// aWtemporal = aWtemporal1
 	// }
 // console.log()
