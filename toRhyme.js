@@ -4,10 +4,10 @@ var AlphabetEs= ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','ñ','o
 var vowels = ['a','e','i','o','u','á','é','í','ó','ú']
 var vowelsTilde = ['á','é','í','ó','ú']
 var openVowels =['a','e','o','á','é','í','ó','ú']
-var closedVowels= ['i','u']
+var closedVowels= [ 'u', 'i' ]
 var consonants = ['b','c','d','f','g','h','j','k','l','m','n','ñ','p','q','r','s','t','v','w','x','y','z']
-var possibleDobleLetters = ['r', 'l']
-
+var possibleDobleLetters = ['r', 'l', 't']
+var analizedWord = 'gato'
 
 
 function toLowerCaseF(analizedWord){
@@ -16,7 +16,7 @@ return analizedWordLower
 }
 
 function normalizeWordAndSplit(analizedWord){
-var normalizedWord= analizedWord.toLowerCase().split('')
+var normalizedWanalizadwordord= analizedWord.toLowerCase().split('')
 return normalizedWord
 }
 
@@ -27,37 +27,44 @@ function aWsplittedF (analizedWord){
 }
 
 // takes a string and returns an array that distinguish between consonants , open vowels and closed vowals, making ['c', 'oV', 'cV'...]
-function VowelOrConsonant(aWSplitted){
-	var wordConsonantVowel=[]
-	var analizedWordLength = aWSplitted.length
-	//for every letter of aW
-	for (var i = 0; i < analizedWordLength; i++){
-		var isVowel = null
-		//for every vowel
+function VowelOrConsonant(analizedWord){
+	var wordProcesed = []
+	//tests every letter of the word
+	for (var i = 0; i < analizedWord.length; i++) {
+		var letterRecognized = false
+		var isVowel = false
+		//againts every vowel
 		for (var e = 0; e < vowels.length; e++) {
-			if (aWSplitted[i] === vowels[e]) {
+			//is a vowel?
+			if (vowels[e] === analizedWord[i] ) {
+				isVowel = true
+			} 
+		}
 
-				//for every closed vowel
-				for (var u = 0; u < closedVowels.length; u++) {
-					if (closedVowels[u] === aWSplitted[i]) {
-						isVowel = true
-						wordConsonantVowel.push('vC');
-				//for every Open vowel
-					} else if (isVowel != true){
-						isVowel = true
-						wordConsonantVowel.push('vO');
-					}
-				}
+		//if it istn a vowel, its a consonant
+		if (isVowel === false) {
+			// console.log('consonante')
+			wordProcesed.push('c')
+		}
 
-			} else {
-				if (vowels[e] === vowels[vowels.length -1] && !isVowel) {
-					wordConsonantVowel.push('c');
-				}
-				}
+		//if its a vowel, its closed?
+		if (isVowel) {
+			for (var d = 0; d < closedVowels.length; d++) {
+				if(closedVowels[d]===analizedWord[i] && letterRecognized ===false){
+					wordProcesed.push('vC')
+					letterRecognized = true
+				} 
+			}  
+			if (letterRecognized === false){
+					wordProcesed.push('vO')
+					letterRecognized = true
 			}
 		}
-	return wordConsonantVowel
+	}
+	return wordProcesed
 }
+//console.log(VowelOrConsonant('e'),'////////////')
+
 
 //finds vowels and returns an index of them
 function indexOfVowels(aWvowelOrConsonant){
@@ -84,7 +91,7 @@ function findDiptongos(aWSplitted){
 				diptongosIndex.push(i-1)
 				//finds if there is a vowel after the closed vowel
 				} else if (aWSplitted[i+1]=== vowels[e]){
-					//console.log('hay diptongo vocal abierta despues,  ', aWSplitted[i-1],aWSplitted[i+1] )
+					////console.log('hay diptongo vocal abierta despues,  ', aWSplitted[i-1],aWSplitted[i+1] )
 					diptongosIndex.push(i)
 				}
 			}
@@ -134,10 +141,10 @@ function findDobleLetters(aWSplitted){
 		//finds if there a possible doble letter
 
 		for (var e = 0; e < possibleDobleLetters.length; e++) {
-			// //console.log('aWSplitted[i]', aWSplitted[i])
-			// //console.log('possibleDobleLetters[e]',aWSplitted[e] )
+			// ////console.log('aWSplitted[i]', aWSplitted[i])
+			// ////console.log('possibleDobleLetters[e]',aWSplitted[e] )
 			if (aWSplitted[i] === possibleDobleLetters[e]) {
-				//console.log('rrr o llll',aWSplitted[i] )
+				////console.log('rrr o llll',aWSplitted[i] )
 				if (aWSplitted[i] === aWSplitted[i+1]) {
 					dobleLettersIndex.push(i)
 				}
@@ -163,8 +170,8 @@ function aWanalysis(analizedWord){
 		aWoriginal:analizedWord,
 		analizedWord:toLowerCaseF(analizedWord),
 		aWSplitted: aWsplittedF (analizedWord),
-		aWvowelOrConsonant:VowelOrConsonant(aWsplittedF (analizedWord)),
-		aWindexOfVowels: indexOfVowels(VowelOrConsonant(aWsplittedF (analizedWord))),
+		aWvowelOrConsonant:VowelOrConsonant(analizedWord),
+		aWindexOfVowels: indexOfVowels(VowelOrConsonant(analizedWord)),
 		indexOfDiptongos:findDiptongos(aWsplittedF (analizedWord)),
 		indexOfHiatos:findHiatos(aWsplittedF (analizedWord)),
 		indexOfdobleLetters:findDobleLetters(aWsplittedF (analizedWord)),
@@ -189,7 +196,7 @@ function cutASyllable(analizedWord){
 	var thirdVowelIndex = aWanalysis(analizedWord).aWindexOfVowels[2]
 	var wordBeingCut = null
 	var firstSyllable = null
-	console.log(firstHiatoIndex)
+	//console.log(firstHiatoIndex)
 
 //push already cut sylables in to te returned variable
 	// for (var i = 0; i+1 < analizedWordArr.length; i++) {
@@ -200,7 +207,7 @@ function cutASyllable(analizedWord){
 		firstSyllable = analizedWord.substring(0,firstHiatoIndex+1);
 		wordBeingCut= analizedWord.substring(firstHiatoIndex+1);
 	} else if (firstVowelIndex === firstDiptongoIndex) {
-		console.log('hay diptongo')
+		//console.log('hay diptongo')
 		firstSyllable = analizedWord.substring(0,thirdVowelIndex-1);
 		wordBeingCut= analizedWord.substring(thirdVowelIndex-1);
 	} else{
@@ -221,10 +228,10 @@ function cutASyllable(analizedWord){
 	}
 
 	return wordProcess
-	}
+}
 
 
-var wordKing =  'piano'
+var wordKing =  'esdrujulo'
 
 
 //recives a string and returs an array of its sylables
@@ -233,7 +240,7 @@ function cutAWordInSylables(analizedWord){
 	var splittedWord = []
 	var leftToCut 
 
-	var cutted = cutASyllable(analizedWord)
+	 var cutted = cutASyllable(analizedWord)
 
 	if(cutted.length === 1){IsThereLeftToCut = false }
 
