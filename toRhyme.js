@@ -265,3 +265,22 @@ function cutAWordInSylables(analizedWord){
 
 	aWtemporal = cutAWordInSylables(wordKing) 
 console.log(aWtemporal)
+
+var testedValues = [['gato'], [ 'ga' ,'to']]
+
+function testBasic(wordAndItBySylablle){
+	var wordsWithErrors = []
+	if(cutAWordInSylables(testedValues[0][0]) === testedValues[1]){
+
+			console.log('biennn')
+	}
+	else{
+		console.log('resutlado ' , cutAWordInSylables(testedValues[0][0]),  '     esperado', testedValues[1])
+		var error = [cutAWordInSylables(testedValues[0][0]),testedValues[1] ]
+		wordsWithErrors.push(error)
+	}
+
+	return wordsWithErrors
+}
+
+console.log('tesssttt      ' , testBasic(testedValues))
