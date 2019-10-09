@@ -263,24 +263,37 @@ function cutAWordInSylables(analizedWord){
 
 }
 
-	aWtemporal = cutAWordInSylables(wordKing) 
-console.log(aWtemporal)
+// 	aWtemporal = cutAWordInSylables(wordKing) 
+// console.log(aWtemporal)
 
-var testedValues = [['gato'], [ 'ga' ,'to']]
+var testedValues = 'ga'
+
+var valor = cutAWordInSylables(testedValues[0][0])
+
+
+var valorComparado = testedValues[1]
+
+
+console.log(Array.isArray(valorComparado) , 'valorComparado arr?')
+console.log(Array.isArray(valor), 'valor arr?')
+console.log(valor , 'valor')
+console.log(valorComparado , 'valorComparado')
+
+
 
 function testBasic(wordAndItBySylablle){
 	var wordsWithErrors = []
-	if(cutAWordInSylables(testedValues[0][0]) === testedValues[1]){
+	if(valor === valorComparado){
 
 			console.log('biennn')
 	}
 	else{
-		console.log('resutlado ' , cutAWordInSylables(testedValues[0][0]),  '     esperado', testedValues[1])
-		var error = [cutAWordInSylables(testedValues[0][0]),testedValues[1] ]
+		console.log('resutlado ' , valor,  '     esperado', valorComparado)
+		var error = [valor,valorComparado ]
 		wordsWithErrors.push(error)
 	}
 
 	return wordsWithErrors
 }
 
-console.log('tesssttt      ' , testBasic(testedValues))
+// console.log('tesssttt      ' , testBasic(testedValues))
