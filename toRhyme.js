@@ -264,23 +264,51 @@ function cutAWordInSylables(analizedWord){
 }
 
 	aWtemporal = cutAWordInSylables(wordKing) 
-console.log(aWtemporal)
+// console.log(aWtemporal)
 
-var testedValues = [['gato'], [ 'ga' ,'to']]
+var testedValues = [[['gato'], [ 'sga' ,'to']],[['gato'], [ 'ga' ,'to']],[['canario'], [ 'ca' ,'nar', 'rio']]]
 
-function testBasic(wordAndItBySylablle){
-	var wordsWithErrors = []
-	if(cutAWordInSylables(testedValues[0][0]) === testedValues[1]){
+var arraysMatch = function (arr1, arr2) {
 
-			console.log('biennn')
-	}
-	else{
-		console.log('resutlado ' , cutAWordInSylables(testedValues[0][0]),  '     esperado', testedValues[1])
-		var error = [cutAWordInSylables(testedValues[0][0]),testedValues[1] ]
-		wordsWithErrors.push(error)
+	// Check if the arrays are the same length
+	if (arr1.length !== arr2.length) return false;
+
+	// Check if all items exist and are in the same order
+	for (var i = 0; i < arr1.length; i++) {
+		if (arr1[i] !== arr2[i]) return false;
 	}
 
-	return wordsWithErrors
+	// Otherwise, return true
+	return true;
+
+}
+//
+function testWordSplitting(analizedWord, wordSpelledCorrect){
+	var autoCuttedWord = cutAWordInSylables(analizedWord)
+	if(arraysMatch(autoCuttedWord,wordSpelledCorrect)){
+		console.log('todo bien')
+		return true
+	}else{
+		console.log('todo mal')
+		return [analizedWord, autoCuttedWord,wordSpelledCorrect ]
+	}
 }
 
-console.log('tesssttt      ' , testBasic(testedValues))
+function test(testedValues){
+	var errorsArray = []
+	for (var i = 0; i < testedValues.length; i++) {
+		var wordTestResult = testWordSplitting(testedValues[i][0][0],testedValues[i][1])
+		if(wordTestResult != true){
+			errorsArray.push(wordTestResult)
+		}
+	}
+
+
+	return errorsArray
+}
+
+
+console.log(test(testedValues))
+// console.log(testWordSplitting(testedValues[0][0],testedValues[1]))
+
+

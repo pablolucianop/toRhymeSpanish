@@ -27,3 +27,6 @@ diciembre
 
 [ 'ga', 'to' ]
 [ 'ga', 'to' ]
+
+atraco
+at', 'ra', 'co'
