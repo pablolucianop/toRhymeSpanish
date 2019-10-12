@@ -10,7 +10,10 @@ var possibleDobleLetters = ['r', 'l', 't']
 var analizedWord = 'gato'
 
 
-
+function toLowerCaseF(analizedWord){
+var analizedWordLower= analizedWord.toLowerCase()
+return analizedWordLower
+}
 
 function normalizeWordAndSplit(analizedWord){
 var normalizedWanalizadwordord= analizedWord.toLowerCase().split('')
@@ -165,7 +168,7 @@ function findDobleLetters(aWSplitted){
 function aWanalysis(analizedWord){
 	var analizedWordObj = {
 		aWoriginal:analizedWord,
-		analizedWord:analizedWord.toLowerCase(),
+		analizedWord:toLowerCaseF(analizedWord),
 		aWSplitted: aWsplittedF (analizedWord),
 		aWvowelOrConsonant:VowelOrConsonant(analizedWord),
 		aWindexOfVowels: indexOfVowels(VowelOrConsonant(analizedWord)),
@@ -237,7 +240,7 @@ function cutAWordInSylables(analizedWord){
 	var splittedWord = []
 	var leftToCut 
 
-	 // var cutted = cutASyllable(analizedWord)
+	 var cutted = cutASyllable(analizedWord)
 
 	if(cutted.length === 1){IsThereLeftToCut = false }
 
@@ -260,37 +263,24 @@ function cutAWordInSylables(analizedWord){
 
 }
 
-// 	aWtemporal = cutAWordInSylables(wordKing) 
-// console.log(aWtemporal)
+	aWtemporal = cutAWordInSylables(wordKing) 
+console.log(aWtemporal)
 
-var testedValues = 'ga'
-
-var valor = cutAWordInSylables(testedValues[0][0])
-
-
-var valorComparado = testedValues[1]
-
-
-console.log(Array.isArray(valorComparado) , 'valorComparado arr?')
-console.log(Array.isArray(valor), 'valor arr?')
-console.log(valor , 'valor')
-console.log(valorComparado , 'valorComparado')
-
-
+var testedValues = [['gato'], [ 'ga' ,'to']]
 
 function testBasic(wordAndItBySylablle){
 	var wordsWithErrors = []
-	if(valor === valorComparado){
+	if(cutAWordInSylables(testedValues[0][0]) === testedValues[1]){
 
 			console.log('biennn')
 	}
 	else{
-		console.log('resutlado ' , valor,  '     esperado', valorComparado)
-		var error = [valor,valorComparado ]
+		console.log('resutlado ' , cutAWordInSylables(testedValues[0][0]),  '     esperado', testedValues[1])
+		var error = [cutAWordInSylables(testedValues[0][0]),testedValues[1] ]
 		wordsWithErrors.push(error)
 	}
 
 	return wordsWithErrors
 }
 
-// console.log('tesssttt      ' , testBasic(testedValues))
+console.log('tesssttt      ' , testBasic(testedValues))
