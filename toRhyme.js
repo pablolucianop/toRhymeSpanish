@@ -10,10 +10,7 @@ var possibleDobleLetters = ['r', 'l', 't']
 var analizedWord = 'gato'
 
 
-function toLowerCaseF(analizedWord){
-var analizedWordLower= analizedWord.toLowerCase()
-return analizedWordLower
-}
+
 
 function normalizeWordAndSplit(analizedWord){
 var normalizedWanalizadwordord= analizedWord.toLowerCase().split('')
@@ -168,7 +165,7 @@ function findDobleLetters(aWSplitted){
 function aWanalysis(analizedWord){
 	var analizedWordObj = {
 		aWoriginal:analizedWord,
-		analizedWord:toLowerCaseF(analizedWord),
+		analizedWord:analizedWord.toLowerCase(),
 		aWSplitted: aWsplittedF (analizedWord),
 		aWvowelOrConsonant:VowelOrConsonant(analizedWord),
 		aWindexOfVowels: indexOfVowels(VowelOrConsonant(analizedWord)),
@@ -240,7 +237,7 @@ function cutAWordInSylables(analizedWord){
 	var splittedWord = []
 	var leftToCut 
 
-	 var cutted = cutASyllable(analizedWord)
+	 // var cutted = cutASyllable(analizedWord)
 
 	if(cutted.length === 1){IsThereLeftToCut = false }
 
