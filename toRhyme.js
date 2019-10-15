@@ -10,15 +10,9 @@ var possibleDobleLetters = ['r', 'l', 't']
 var analizedWord = 'gato'
 
 
-function toLowerCaseF(analizedWord){
-var analizedWordLower= analizedWord.toLowerCase()
-return analizedWordLower
-}
 
-function normalizeWordAndSplit(analizedWord){
-var normalizedWanalizadwordord= analizedWord.toLowerCase().split('')
-return normalizedWord
-}
+
+
 
 // takes a string and returns it splitted letter by letter 
 function aWsplittedF (analizedWord){
@@ -63,7 +57,7 @@ function VowelOrConsonant(analizedWord){
 	}
 	return wordProcesed
 }
-//console.log(VowelOrConsonant('e'),'////////////')
+
 
 
 //finds vowels and returns an index of them
@@ -168,7 +162,7 @@ function findDobleLetters(aWSplitted){
 function aWanalysis(analizedWord){
 	var analizedWordObj = {
 		aWoriginal:analizedWord,
-		analizedWord:toLowerCaseF(analizedWord),
+		analizedWord:analizedWord.toLowerCase(),
 		aWSplitted: aWsplittedF (analizedWord),
 		aWvowelOrConsonant:VowelOrConsonant(analizedWord),
 		aWindexOfVowels: indexOfVowels(VowelOrConsonant(analizedWord)),
