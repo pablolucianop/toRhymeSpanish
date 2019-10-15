@@ -3,19 +3,11 @@ errors
 esdrujulo
  'esd', 'r', 'ujulo' ]
 
-perrito
-[ 'per', 'ri', 'to' ]
 
-Estigarríbicondo
-'Esti', 'gar', 'rí', 'bi', 'con', 'do' 
-
-plenitud
-ple', 'ni', 't', 'ud
+Estiga
+'Esti', 'ga', 
 
 
-
-centellear
-[ 'cen', 'tel', 'le', 'ar' ]
 
 terremoto
 [ 'ter', 're', 'mo', 'to' ]
@@ -25,8 +17,6 @@ terremoto
 diciembre
 'di', 'ciemb', 're'
 
-[ 'ga', 'to' ]
-[ 'ga', 'to' ]
 
 atraco
 at', 'ra', 'co'

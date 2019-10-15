@@ -194,23 +194,27 @@ function cutASyllable(analizedWord){
 	var firstDiptongoIndex = aWanalysis(analizedWord).indexOfDiptongos[0]
 	var secondVowelIndex = aWanalysis(analizedWord).aWindexOfVowels[1]
 	var thirdVowelIndex = aWanalysis(analizedWord).aWindexOfVowels[2]
+	var firstRepeatedLetterIndex = aWanalysis(analizedWord).indexOfdobleLetters[0]
 	var wordBeingCut = null
 	var firstSyllable = null
 	//console.log(firstHiatoIndex)
 
-//push already cut sylables in to te returned variable
-	// for (var i = 0; i+1 < analizedWordArr.length; i++) {
-	// 	wordProcess.push(analizedWordArr[i])
-	// }
 
+	// if its there an hiato, cut the syllable between bowels
 	if (firstVowelIndex === firstHiatoIndex ){
 		firstSyllable = analizedWord.substring(0,firstHiatoIndex+1);
 		wordBeingCut= analizedWord.substring(firstHiatoIndex+1);
+	//else if its there a diptongo, cut the syllable one before the third vowel	
+	//lacks repeated letter case!!
 	} else if (firstVowelIndex === firstDiptongoIndex) {
-		//console.log('hay diptongo')
 		firstSyllable = analizedWord.substring(0,thirdVowelIndex-1);
 		wordBeingCut= analizedWord.substring(thirdVowelIndex-1);
-	} else{
+	//else if, there is a repeated letter, cut the syllable two letter before the second vowel 
+	} else if(secondVowelIndex-2 === firstRepeatedLetterIndex){
+		firstSyllable = analizedWord.substring(0,secondVowelIndex-2);
+		wordBeingCut= analizedWord.substring(secondVowelIndex-2);
+	//if there arent any diptongo or hiato, cut the first syllable one letter before the second vowel. 
+	}else{
 		firstSyllable = analizedWord.substring(0,secondVowelIndex-1);
 		wordBeingCut= analizedWord.substring(secondVowelIndex-1);
 	}
@@ -264,9 +268,9 @@ function cutAWordInSylables(analizedWord){
 }
 
 	aWtemporal = cutAWordInSylables(wordKing) 
-// console.log(aWtemporal)
 
-var testedValues = [[['gato'], [ 'sga' ,'to']],[['gato'], [ 'ga' ,'to']],[['canario'], [ 'ca' ,'nar', 'rio']]]
+
+var testedValues = [[['gato'], [ 'ga' ,'to']],[['centellear'], [ 'cen', 'te', 'lle', 'ar' ]],[['plenitud'], [ 'ple' ,'ni','tud']],[['Estiga'], [ 'Es','ti', 'ga']],[['perro'], [ 'pe' ,'rro']],[['canario'], [ 'ca' ,'na', 'rio']],[['callo'], [ 'ca' ,'llo']],[['perrito'], [ 'pe' ,'rri','to']]]
 
 var arraysMatch = function (arr1, arr2) {
 
