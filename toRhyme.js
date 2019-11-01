@@ -8,7 +8,7 @@ var closedVowels= [ 'u', 'i' ]
 var consonants = ['b','c','d','f','g','h','j','k','l','m','n','ñ','p','q','r','s','t','v','w','x','y','z']
 var possibleDobleLetters = ['r', 'l', 't']
 var analizedWord = 'gato'
-
+var unsplittables = ['br','cr','dr', 'gr', 'fr', 'kr', 'tr','bl', 'cl', 'gl', 'fl', 'kl', 'pl']
 
 
 
@@ -58,7 +58,22 @@ function VowelOrConsonant(analizedWord){
 	return wordProcesed
 }
 
-
+function getIndicesOf(searchStr, str, caseSensitive) {
+    var searchStrLen = searchStr.length;
+    if (searchStrLen == 0) {
+        return [];
+    }
+    var startIndex = 0, index, indices = [];
+    if (!caseSensitive) {
+        str = str.toLowerCase();
+        searchStr = searchStr.toLowerCase();
+    }
+    while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+        indices.push(index);
+        startIndex = index + searchStrLen;
+    }
+    return indices;
+}
 
 //finds vowels and returns an index of them
 function indexOfVowels(aWvowelOrConsonant){
@@ -120,7 +135,7 @@ function findHiatos(aWSplitted){
 	}
 
 	//eliminates duplicates caused by two closed vowels diptongos
-	uniqueArray = hiatosIndex.filter(function(item, pos) {
+	var uniqueArray = hiatosIndex.filter(function(item, pos) {
 	    return hiatosIndex.indexOf(item) == pos;
 	})
 
@@ -148,17 +163,54 @@ function findDobleLetters(aWSplitted){
 
 	}
 
-
-
 	//eliminates duplicates caused by two closed vowels diptongos
-	uniqueArray = dobleLettersIndex.filter(function(item, pos) {
+	var uniqueArray = dobleLettersIndex.filter(function(item, pos) {
 	    return dobleLettersIndex.indexOf(item) == pos;
 	})
 
 	return uniqueArray
 }
 
+function getIndicesOfThese(encontrar,texto){
 
+	function getIndicesOf(searchStr, str, caseSensitive) {
+	    var searchStrLen = searchStr.length;
+	    if (searchStrLen == 0) {
+	        return [];
+	    }
+	    var startIndex = 0, index, indices = [];
+	    if (!caseSensitive) {
+	        str = str.toLowerCase();
+	        searchStr = searchStr.toLowerCase();
+	    }
+	    while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+	        indices.push(index);
+	        startIndex = index + searchStrLen;
+	    }
+	    return indices;
+	}
+
+
+	arr = []
+	for (var i = 0; i < encontrar.length; i++) {
+		encontrar[i]
+		arr.push(getIndicesOf(encontrar[i], texto))
+	}
+
+	var merged = [].concat.apply([], arr)
+
+	var mergedNsorted =  merged.sort(function(a,b){return a - b})
+	
+	uniqueArray = mergedNsorted.filter(function(item, pos) {
+	    return mergedNsorted.indexOf(item) == pos;
+	})
+	return uniqueArray
+}
+
+
+function findUnsplittables(analizedWord){
+	return getIndicesOfThese(unsplittables,analizedWord)
+}
 
 //returns a full word analysis
 function aWanalysis(analizedWord){
@@ -171,6 +223,7 @@ function aWanalysis(analizedWord){
 		indexOfDiptongos:findDiptongos(aWsplittedF (analizedWord.toLowerCase())),
 		indexOfHiatos:findHiatos(aWsplittedF (analizedWord.toLowerCase())),
 		indexOfdobleLetters:findDobleLetters(aWsplittedF (analizedWord.toLowerCase())),
+		indexOfunsplittables:findUnsplittables(analizedWord),
 		aWsplitted:[analizedWord],
 		aWTotalySplitted:false
 	}
@@ -189,17 +242,20 @@ function cutASyllable(analizedWord){
 	var firstVowelIndex = aWanalysis(analizedWord).aWindexOfVowels[0]
 	var firstHiatoIndex = aWanalysis(analizedWord).indexOfHiatos[0]
 	var firstDiptongoIndex = aWanalysis(analizedWord).indexOfDiptongos[0]
+	var firstUnsplittableIndex = aWanalysis(analizedWord).indexOfunsplittables[0]
 	var secondVowelIndex = aWanalysis(analizedWord).aWindexOfVowels[1]
 	var thirdVowelIndex = aWanalysis(analizedWord).aWindexOfVowels[2]
 	var firstRepeatedLetterIndex = aWanalysis(analizedWord).indexOfdobleLetters[0]
 	var consonantsBetweenVowels =aWanalysis(analizedWord).aWindexOfVowels[1] -aWanalysis(analizedWord).aWindexOfVowels[0]
 	var wordBeingCut = null
 	var firstSyllable = null
+
 	
-	console.log(consonantsBetweenVowels, 'consonantsBetweenVowels')
+	// console.log(consonantsBetweenVowels, 'consonantsBetweenVowels')
 	function cutFirstSyllableHere(whereToCut){
 			firstSyllable = analizedWord.substring(0,whereToCut);
 			wordBeingCut= analizedWord.substring(whereToCut);
+
 	}
 
 	// if its there an hiato, cut the syllable between bowels
@@ -210,11 +266,25 @@ function cutASyllable(analizedWord){
 	//lacks repeated letter case!!
 	} else if (firstVowelIndex === firstDiptongoIndex) {
 		cutFirstSyllableHere(thirdVowelIndex-1)
-
 	//else if, there is a repeated letter, cut the syllable two letter before the second vowel 
 	} else if(secondVowelIndex-2 === firstRepeatedLetterIndex){
 		cutFirstSyllableHere(secondVowelIndex-2)
+		//else if, there are four consonants between the first vowel and the second, split it after the second consonant
+	} else if(secondVowelIndex-5 === firstVowelIndex){
+		cutFirstSyllableHere(secondVowelIndex-2)
+		//else if, there are three consonants between the first vowel and the second, 
+	} else if(secondVowelIndex-4 === firstVowelIndex){
 
+		if(firstUnsplittableIndex === firstVowelIndex+1 ){
+
+		cutFirstSyllableHere(firstVowelIndex+3)}
+		else if(firstUnsplittableIndex === firstVowelIndex+2 ){
+			console.log( '###################')
+		cutFirstSyllableHere(firstVowelIndex+2)
+		}else{
+			cutFirstSyllableHere(firstVowelIndex+3)
+		}
+		
 	//if there aren't any diptongo or hiato, cut the first syllable one letter before the second vowel. 
 	}else{
 		cutFirstSyllableHere(secondVowelIndex-1)
@@ -241,6 +311,7 @@ var wordKing =  'esdrujulo'
 
 //recives a string and returs an array of its sylables
 function cutAWordInSylables(analizedWord){
+
 	var IsThereLeftToCut = true
 	var splittedWord = []
 	var leftToCut 
@@ -251,9 +322,10 @@ function cutAWordInSylables(analizedWord){
 
 	splittedWord.push(cutted[0])
 	leftToCut = cutted[1]
-	
+			
 
 	function cutAgaing(){
+
 	 	cutted = cutASyllable(leftToCut)
 	 	splittedWord.push(cutted[0])
 	 	leftToCut = cutted[1]
@@ -270,10 +342,9 @@ function cutAWordInSylables(analizedWord){
 
 
 
-	aWtemporal = cutAWordInSylables(wordKing) 
 
 
- var testedValues = [[['acróbata'], [ 'a' ,'cro','ba','ta']],[['esdrújulo'], [ 'es' ,'dru','ju','lo']], [['gato'], [ 'ga' ,'to']],[['alerta'], [ 'a','ler','ta']],[['atraco'], [ 'a' ,'tra','co']],[['centellear'], [ 'cen', 'te', 'lle', 'ar' ]],[['plenitud'], [ 'ple' ,'ni','tud']],[['Esti'], [ 'Es','ti']],[['terremoto'], [ 'te','rre','mo','to']],[['perro'], [ 'pe' ,'rro']],[['canario'], [ 'ca' ,'na', 'rio']],[['callo'], [ 'ca' ,'llo']],[['perrito'], [ 'pe' ,'rri','to']]]
+ var testedValues = [[['contra'], [ 'con','tra']],[['instaurar'], [ 'ins','tau','rar']],[['acróbata'], [ 'a' ,'cro','ba','ta']],[['esdrújulo'], [ 'es' ,'dru','ju','lo']], [['gato'], [ 'ga' ,'to']],[['perro'], [ 'pe' ,'rro']],[['alerta'], [ 'a','ler','ta']],[['atraco'], [ 'a' ,'tra','co']],[['centellear'], [ 'cen', 'te', 'lle', 'ar' ]],[['plenitud'], [ 'ple' ,'ni','tud']],[['Esti'], [ 'Es','ti']],[['terremoto'], [ 'te','rre','mo','to']],[['perro'], [ 'pe' ,'rro']],[['canario'], [ 'ca' ,'na', 'rio']],[['callo'], [ 'ca' ,'llo']],[['abstracto'], [ 'abs' ,'trac','to']],[['perrito'], [ 'pe' ,'rri','to']]]
 // var testedValues = [[['Esti'], [ 'es','ti']]]
 
 
@@ -319,10 +390,10 @@ function test(testedValues){
 	return errorsArray
 }
 
-var perro = 'abstra'
-console.log(aWanalysis(perro))
-console.log(cutAWordInSylables(perro))
-// console.log(test(testedValues))
+var perro = 'perspicaz'
+// console.log(aWanalysis(perro))
+// console.log(cutAWordInSylables(perro))
+console.log(test(testedValues))
 // console.log(testWordSplitting(testedValues[0][0],testedValues[1]))
 
 
