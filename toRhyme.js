@@ -257,13 +257,13 @@ function cutASyllable(analizedWord){
 			wordBeingCut= analizedWord.substring(whereToCut);
 
 	}
-
 	// if its there an hiato, cut the syllable between bowels
-	if (firstVowelIndex === firstHiatoIndex ){
+	if (analizedWord.length < 2 ){
+		cutFirstSyllableHere(analizedWord.length)
+	// if its there an hiato, cut the syllable between bowels
+	} else if (firstVowelIndex === firstHiatoIndex ){
 		cutFirstSyllableHere(firstHiatoIndex+1)
-
 	//else if its there a diptongo, cut the syllable one before the third vowel	
-	//lacks repeated letter case!!
 	} else if (firstVowelIndex === firstDiptongoIndex) {
 		cutFirstSyllableHere(thirdVowelIndex-1)
 	//else if, there is a repeated letter, cut the syllable two letter before the second vowel 
@@ -319,40 +319,34 @@ var wordKing =  'esdrujulo'
 
 //recives a string and returs an array of its sylables
 function cutAWordInSylables(analizedWord){
-
 	var IsThereLeftToCut = true
 	var splittedWord = []
-	var leftToCut 
+	var leftToCut = analizedWord
+	// var cutted = cutASyllable(analizedWord)
+	// if(cutted.length === 1){IsThereLeftToCut = false }
 
-	 var cutted = cutASyllable(analizedWord)
-
-	if(cutted.length === 1){IsThereLeftToCut = false }
-
-	splittedWord.push(cutted[0])
-	leftToCut = cutted[1]
+	// splittedWord.push(cutted[0])
+	// leftToCut = cutted[1]
 			
 
 	function cutAgaing(){
-
-	 	cutted = cutASyllable(leftToCut)
+	 	var cutted = cutASyllable(leftToCut)
 	 	splittedWord.push(cutted[0])
 	 	leftToCut = cutted[1]
-	 	if(cutted.length === 1){ IsThereLeftToCut = false}
+	 	if(cutted.length <= 1 || analizedWord.length<2){ IsThereLeftToCut = false}
 	 	if (IsThereLeftToCut) {cutAgaing()}	
 	 }
 	 cutAgaing()
 
 
  return  splittedWord
-
-
 }
 
 
 
 
 
- var testedValues = [[['contra'], [ 'con','tra']],[['instaurar'], [ 'ins','tau','rar']],[['acróbata'], [ 'a' ,'cró','ba','ta']],[['esdrújulo'], [ 'es' ,'drú','ju','lo']], [['gato'], [ 'ga' ,'to']],[['perro'], [ 'pe' ,'rro']],[['alerta'], [ 'a','ler','ta']],[['atraco'], [ 'a' ,'tra','co']],[['centellear'], [ 'cen', 'te', 'lle', 'ar' ]],[['plenitud'], [ 'ple' ,'ni','tud']],[['Esti'], [ 'Es','ti']],[['terremoto'], [ 'te','rre','mo','to']],[['perro'], [ 'pe' ,'rro']],[['canario'], [ 'ca' ,'na', 'rio']],[['callo'], [ 'ca' ,'llo']],[['abstracto'], [ 'abs' ,'trac','to']],[['perrito'], [ 'pe' ,'rri','to']]]
+ var testedValues = [[['a'], [ 'a']],[['ren'], [ 'ren']],[['contra'], [ 'con','tra']],[['instaurar'], [ 'ins','tau','rar']],[['acróbata'], [ 'a' ,'cró','ba','ta']],[['esdrújulo'], [ 'es' ,'drú','ju','lo']], [['gato'], [ 'ga' ,'to']],[['perro'], [ 'pe' ,'rro']],[['alerta'], [ 'a','ler','ta']],[['atraco'], [ 'a' ,'tra','co']],[['centellear'], [ 'cen', 'te', 'lle', 'ar' ]],[['plenitud'], [ 'ple' ,'ni','tud']],[['Esti'], [ 'Es','ti']],[['terremoto'], [ 'te','rre','mo','to']],[['perro'], [ 'pe' ,'rro']],[['canario'], [ 'ca' ,'na', 'rio']],[['callo'], [ 'ca' ,'llo']],[['abstracto'], [ 'abs' ,'trac','to']],[['perrito'], [ 'pe' ,'rri','to']]]
 // var testedValues = [[['Esti'], [ 'es','ti']]]
 
 
