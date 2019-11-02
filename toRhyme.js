@@ -279,12 +279,20 @@ function cutASyllable(analizedWord){
 
 		cutFirstSyllableHere(firstVowelIndex+3)}
 		else if(firstUnsplittableIndex === firstVowelIndex+2 ){
-			console.log( '###################')
 		cutFirstSyllableHere(firstVowelIndex+2)
 		}else{
 			cutFirstSyllableHere(firstVowelIndex+3)
 		}
+
+		//else if, there are two consonants between the first vowel and the second, 
+	} else if(secondVowelIndex-3 === firstVowelIndex){
+		if(firstUnsplittableIndex === firstVowelIndex+1 ){
+		cutFirstSyllableHere(firstVowelIndex+1)
+		}else{
+			cutFirstSyllableHere(firstVowelIndex+2)
+		}
 		
+				
 	//if there aren't any diptongo or hiato, cut the first syllable one letter before the second vowel. 
 	}else{
 		cutFirstSyllableHere(secondVowelIndex-1)
@@ -344,7 +352,7 @@ function cutAWordInSylables(analizedWord){
 
 
 
- var testedValues = [[['contra'], [ 'con','tra']],[['instaurar'], [ 'ins','tau','rar']],[['acróbata'], [ 'a' ,'cro','ba','ta']],[['esdrújulo'], [ 'es' ,'dru','ju','lo']], [['gato'], [ 'ga' ,'to']],[['perro'], [ 'pe' ,'rro']],[['alerta'], [ 'a','ler','ta']],[['atraco'], [ 'a' ,'tra','co']],[['centellear'], [ 'cen', 'te', 'lle', 'ar' ]],[['plenitud'], [ 'ple' ,'ni','tud']],[['Esti'], [ 'Es','ti']],[['terremoto'], [ 'te','rre','mo','to']],[['perro'], [ 'pe' ,'rro']],[['canario'], [ 'ca' ,'na', 'rio']],[['callo'], [ 'ca' ,'llo']],[['abstracto'], [ 'abs' ,'trac','to']],[['perrito'], [ 'pe' ,'rri','to']]]
+ var testedValues = [[['contra'], [ 'con','tra']],[['instaurar'], [ 'ins','tau','rar']],[['acróbata'], [ 'a' ,'cró','ba','ta']],[['esdrújulo'], [ 'es' ,'drú','ju','lo']], [['gato'], [ 'ga' ,'to']],[['perro'], [ 'pe' ,'rro']],[['alerta'], [ 'a','ler','ta']],[['atraco'], [ 'a' ,'tra','co']],[['centellear'], [ 'cen', 'te', 'lle', 'ar' ]],[['plenitud'], [ 'ple' ,'ni','tud']],[['Esti'], [ 'Es','ti']],[['terremoto'], [ 'te','rre','mo','to']],[['perro'], [ 'pe' ,'rro']],[['canario'], [ 'ca' ,'na', 'rio']],[['callo'], [ 'ca' ,'llo']],[['abstracto'], [ 'abs' ,'trac','to']],[['perrito'], [ 'pe' ,'rri','to']]]
 // var testedValues = [[['Esti'], [ 'es','ti']]]
 
 
