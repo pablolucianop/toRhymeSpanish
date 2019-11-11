@@ -8,7 +8,7 @@ var closedVowels= [ 'u', 'i','ü' ]
 var consonants = ['b','c','d','f','g','h','j','k','l','m','n','ñ','p','q','r','s','t','v','w','x','y','z']
 var possibleDobleLetters = ['r', 'l', 't']
 var analizedWord = 'gato'
-var unsplittables = ['br','cr','dr', 'gr', 'fr', 'kr', 'tr','bl', 'cl', 'gl', 'fl', 'kl', 'pl', 'gü']
+var unsplittables = ['br','cr','dr', 'gr', 'fr', 'kr', 'tr','bl', 'cl', 'gl', 'fl', 'kl', 'pl', 'gü', 'ch']
 
 
 
@@ -224,8 +224,7 @@ function aWanalysis(analizedWord){
 		indexOfHiatos:findHiatos(aWsplittedF (analizedWord.toLowerCase())),
 		indexOfdobleLetters:findDobleLetters(aWsplittedF (analizedWord.toLowerCase())),
 		indexOfunsplittables:findUnsplittables(analizedWord),
-		aWsplitted:[analizedWord],
-		aWTotalySplitted:false
+		aWTotalySplitted:false,
 	}
 	return analizedWordObj
 }
@@ -346,7 +345,7 @@ function cutAWordInSylables(analizedWord){
 
 
 
- var testedValues = [[['a'], [ 'a']],[['águila'], [ 'á','gui','la']],[['averigüéis'], [ 'a','ve','ri','güéis']],[['ren'], [ 'ren']],[['contra'], [ 'con','tra']],[['instaurar'], [ 'ins','tau','rar']],[['acróbata'], [ 'a' ,'cró','ba','ta']],[['esdrújulo'], [ 'es' ,'drú','ju','lo']], [['gato'], [ 'ga' ,'to']],[['perro'], [ 'pe' ,'rro']],[['alerta'], [ 'a','ler','ta']],[['atraco'], [ 'a' ,'tra','co']],[['centellear'], [ 'cen', 'te', 'lle', 'ar' ]],[['plenitud'], [ 'ple' ,'ni','tud']],[['Esti'], [ 'Es','ti']],[['terremoto'], [ 'te','rre','mo','to']],[['perro'], [ 'pe' ,'rro']],[['canario'], [ 'ca' ,'na', 'rio']],[['callo'], [ 'ca' ,'llo']],[['abstracto'], [ 'abs' ,'trac','to']],[['perrito'], [ 'pe' ,'rri','to']]]
+ var testedValues = [[['a'], [ 'a']],[['águila'], [ 'á','gui','la']],[['abril'], [ 'a','bril']],[['averigüéis'], [ 'a','ve','ri','güéis']],[['ren'], [ 'ren']],[['contra'], [ 'con','tra']],[['instaurar'], [ 'ins','tau','rar']],[['acróbata'], [ 'a' ,'cró','ba','ta']],[['esdrújulo'], [ 'es' ,'drú','ju','lo']], [['gato'], [ 'ga' ,'to']],[['perro'], [ 'pe' ,'rro']],[['alerta'], [ 'a','ler','ta']],[['atraco'], [ 'a' ,'tra','co']],[['centellear'], [ 'cen', 'te', 'lle', 'ar' ]],[['plenitud'], [ 'ple' ,'ni','tud']],[['Esti'], [ 'Es','ti']],[['terremoto'], [ 'te','rre','mo','to']],[['perro'], [ 'pe' ,'rro']],[['canario'], [ 'ca' ,'na', 'rio']],[['callo'], [ 'ca' ,'llo']],[['abstracto'], [ 'abs' ,'trac','to']],[['perrito'], [ 'pe' ,'rri','to']]]
 // var testedValues = [[['Esti'], [ 'es','ti']]]
 
 
@@ -366,8 +365,12 @@ var arraysMatch = function (arr1, arr2) {
 
 }
 
+function aWanalysis2(analizedWord){
+ var a = aWanalysis(analizedWord)
+ a.aWSplitted = cutAWordInSylables(analizedWord)
+ return a
+}
 
-//
 function testWordSplitting(analizedWord, wordSpelledCorrect){
 	var autoCuttedWord = cutAWordInSylables(analizedWord)
 	if(arraysMatch(autoCuttedWord,wordSpelledCorrect)){
@@ -392,10 +395,10 @@ function test(testedValues){
 	return errorsArray
 }
 
-var perro = 'perspicaz'
-// console.log(aWanalysis(perro))
+var perro = 'Caminando'
+ console.log(aWanalysis2(perro))
 // console.log(cutAWordInSylables(perro))
-console.log(test(testedValues))
+//console.log(test(testedValues))
 // console.log(testWordSplitting(testedValues[0][0],testedValues[1]))
 
 
