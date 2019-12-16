@@ -31,10 +31,10 @@ var findAndIndex = (whatToFind,whereToFindIt)=>{
 
 
 //find these strings in a string and return an index
-var findAndIndexMultipleStrings=(stringsToFind,whereToFindIt)=>{
+var findAndIndexMultipleStrings=(arrayStringsToFind,whereToFindIt)=>{
     var arrayOfIndexs = []
-    for (var i = 0; i < stringsToFind.length; i++){
-         arrayOfIndexs.push(findAndIndex(stringsToFind[i], whereToFindIt))
+    for (var i = 0; i < arrayStringsToFind.length; i++){
+         arrayOfIndexs.push(findAndIndex(arrayStringsToFind[i], whereToFindIt))
     }
     //the array flattened and sorted
     return [].concat.apply([], arrayOfIndexs).sort(function(a, b){return a - b});
@@ -42,57 +42,6 @@ var findAndIndexMultipleStrings=(stringsToFind,whereToFindIt)=>{
 }
 
 
-
-// takes a string and returns an array that distinguish between consonants , open vowels and closed vowals, making ['c', 'oV', 'cV'...]
-function VowelOrConsonant(analizedWord){
-	var wordProcesed = []
-	//tests every letter of the word
-	for (var i = 0; i < analizedWord.length; i++) {
-		var letterRecognized = false
-		var isVowel = false
-		//againts every vowel
-		for (var e = 0; e < vowels.length; e++) {
-			//is a vowel?
-			if (vowels[e] === analizedWord[i] ) {
-				isVowel = true
-			} 
-		}
-
-		//if it istn a vowel, its a consonant
-		if (isVowel === false) {
-			// console.log('consonante')
-			wordProcesed.push('c')
-		}
-
-		//if its a vowel, its closed?
-		if (isVowel) {
-			for (var d = 0; d < closedVowels.length; d++) {
-				if(closedVowels[d]===analizedWord[i] && letterRecognized ===false){
-					wordProcesed.push('vC')
-					letterRecognized = true
-				} 
-			}  
-			if (letterRecognized === false){
-					wordProcesed.push('vO')
-					letterRecognized = true
-			}
-		}
-	}
-	return wordProcesed
-}
-
-
-//finds vowels and returns an index of them
-function indexOfVowels(aWvowelOrConsonant){
-	var ubicationVowels = []
-	for (var i = 0; i < aWvowelOrConsonant.length; i++) {
-		var repetition = 0
-		if (aWvowelOrConsonant[i] === 'vO' || aWvowelOrConsonant[i] === 'vC' ) {
-			ubicationVowels.push(i);
-		}
-	}
-	return ubicationVowels
-}
 
 
 //finds diptongos and returns an index of them
@@ -124,33 +73,22 @@ function findDiptongos(aWSplitted){
 
 
 //finds hiatos and returns an index of them
-function findHiatos(aWSplitted){
-	var hiatosIndex = []
-	for (var i = 0; i < aWSplitted.length; i++) {
-		//finds if there is an open vowel
-		for (var e = 0; e < openVowels.length; e++) {
-			if (aWSplitted[i] === openVowels[e]) {
-				for (var o = 0; o < openVowels.length; o++) {
-					if (aWSplitted[i+1] === openVowels[o]) {
-						hiatosIndex.push(i)
-					}
-				}
-			}
-		}
-
-	}
-
-	//eliminates duplicates caused by two closed vowels diptongos
-	var uniqueArray = hiatosIndex.filter(function(item, pos) {
-	    return hiatosIndex.indexOf(item) == pos;
-	})
-
-	return uniqueArray
+var indexHiatosF = (analizedWord)=>{
+    var indexOpenVowels = findAndIndexMultipleStrings(openVowels,analizedWord)
+    var indexH = findAndIndexMultipleStrings(['h'],analizedWord)
+    var indexHiatos = []
+    for (var i = 0; i < indexOpenVowels.length-1; i++) {
+        //and hiato is form when two open vowels are together
+        if (indexOpenVowels[i]+1=== indexOpenVowels[i+1]) {
+            indexHiatos.push(indexOpenVowels[i])  
+        }
+        //if there is an 'h' between two open vowels, its still and hiato, becouse the 'h' is silent!
+        if (indexOpenVowels[i]+2=== indexOpenVowels[i+1] && analizedWord[indexOpenVowels[i]+1] ) {
+            indexHiatos.push(indexOpenVowels[i])  
+        }
+    }
+    return indexHiatos
 }
-
-
-
-
 
 
 
@@ -161,10 +99,9 @@ function aWanalysis(analizedWord){
 		aWoriginal:analizedWord,
 		analizedWord:analizedWord.toLowerCase(),
 		aWSplitted: analizedWord.toLowerCase().split(''),
-		aWvowelOrConsonant:VowelOrConsonant(analizedWord.toLowerCase()),
-		aWindexOfVowels: indexOfVowels(VowelOrConsonant(analizedWord.toLowerCase())),
+		aWindexOfVowels: findAndIndexMultipleStrings(vowels,analizedWord),
 		indexOfDiptongos:findDiptongos(analizedWord.toLowerCase().split('')),
-		indexOfHiatos:findHiatos(analizedWord.toLowerCase().split('')),
+		indexOfHiatos:indexHiatosF(analizedWord),
 		indexOfdobleLetters:findAndIndexMultipleStrings(dobleLetters,analizedWord),
 		indexOfunsplittables:findAndIndexMultipleStrings(unsplittables,analizedWord),
 		aWTotalySplitted:false,
