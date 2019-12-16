@@ -6,7 +6,7 @@ var vowelsTilde = ['á','é','í','ó','ú']
 var openVowels =['a','e','o','á','é','í','ó','ú']
 var closedVowels= [ 'u', 'i','ü' ]
 var consonants = ['b','c','d','f','g','h','j','k','l','m','n','ñ','p','q','r','s','t','v','w','x','y','z']
-var possibleDobleLetters = ['r', 'l', 't']
+var dobleLetters = ['rr', 'll', 'tt']
 var analizedWord = 'gato'
 var unsplittables = ['br','cr','dr', 'gr', 'fr', 'kr', 'tr','bl', 'cl', 'gl', 'fl', 'kl', 'pl', 'gü', 'ch']
 
@@ -14,11 +14,34 @@ var unsplittables = ['br','cr','dr', 'gr', 'fr', 'kr', 'tr','bl', 'cl', 'gl', 'f
 
 
 
-// takes a string and returns it splitted letter by letter 
-function aWsplittedF (analizedWord){
-	 var analizedWordSplit = analizedWord.split('')
-	 return analizedWordSplit
+//finds string in another string and return index
+var findAndIndex = (whatToFind,whereToFindIt)=>{   
+    var primalIndex =[]
+    var reg = new RegExp(whatToFind,"gi");
+    while ((match = reg.exec(whereToFindIt)) != null) {
+        primalIndex.push(['cons' , match.index, match]);
+    }
+    var depuredIndex = []
+    for (var i = 0; i < primalIndex.length; i++) {
+        depuredIndex.push(primalIndex[i][1])
+    }
+    return depuredIndex
 }
+
+
+
+//find these strings in a string and return an index
+var findAndIndexMultipleStrings=(stringsToFind,whereToFindIt)=>{
+    var arrayOfIndexs = []
+    for (var i = 0; i < stringsToFind.length; i++){
+         arrayOfIndexs.push(findAndIndex(stringsToFind[i], whereToFindIt))
+    }
+    //the array flattened and sorted
+    return [].concat.apply([], arrayOfIndexs).sort(function(a, b){return a - b});
+    
+}
+
+
 
 // takes a string and returns an array that distinguish between consonants , open vowels and closed vowals, making ['c', 'oV', 'cV'...]
 function VowelOrConsonant(analizedWord){
@@ -58,22 +81,6 @@ function VowelOrConsonant(analizedWord){
 	return wordProcesed
 }
 
-function getIndicesOf(searchStr, str, caseSensitive) {
-    var searchStrLen = searchStr.length;
-    if (searchStrLen == 0) {
-        return [];
-    }
-    var startIndex = 0, index, indices = [];
-    if (!caseSensitive) {
-        str = str.toLowerCase();
-        searchStr = searchStr.toLowerCase();
-    }
-    while ((index = str.indexOf(searchStr, startIndex)) > -1) {
-        indices.push(index);
-        startIndex = index + searchStrLen;
-    }
-    return indices;
-}
 
 //finds vowels and returns an index of them
 function indexOfVowels(aWvowelOrConsonant){
@@ -111,7 +118,6 @@ function findDiptongos(aWSplitted){
 	uniqueArray = diptongosIndex.filter(function(item, pos) {
 	    return diptongosIndex.indexOf(item) == pos;
 	})
-
 	return uniqueArray
 }
 
@@ -143,87 +149,24 @@ function findHiatos(aWSplitted){
 }
 
 
-//finds rr or ll and returns an index of them
-function findDobleLetters(aWSplitted){
-	var dobleLettersIndex = []
-	for (var i = 0; i < aWSplitted.length; i++) {
-		//finds if there a possible doble letter
-
-		for (var e = 0; e < possibleDobleLetters.length; e++) {
-			// ////console.log('aWSplitted[i]', aWSplitted[i])
-			// ////console.log('possibleDobleLetters[e]',aWSplitted[e] )
-			if (aWSplitted[i] === possibleDobleLetters[e]) {
-				////console.log('rrr o llll',aWSplitted[i] )
-				if (aWSplitted[i] === aWSplitted[i+1]) {
-					dobleLettersIndex.push(i)
-				}
-				
-			}
-		}
-
-	}
-
-	//eliminates duplicates caused by two closed vowels diptongos
-	var uniqueArray = dobleLettersIndex.filter(function(item, pos) {
-	    return dobleLettersIndex.indexOf(item) == pos;
-	})
-
-	return uniqueArray
-}
-
-function getIndicesOfThese(encontrar,texto){
-
-	function getIndicesOf(searchStr, str, caseSensitive) {
-	    var searchStrLen = searchStr.length;
-	    if (searchStrLen == 0) {
-	        return [];
-	    }
-	    var startIndex = 0, index, indices = [];
-	    if (!caseSensitive) {
-	        str = str.toLowerCase();
-	        searchStr = searchStr.toLowerCase();
-	    }
-	    while ((index = str.indexOf(searchStr, startIndex)) > -1) {
-	        indices.push(index);
-	        startIndex = index + searchStrLen;
-	    }
-	    return indices;
-	}
 
 
-	arr = []
-	for (var i = 0; i < encontrar.length; i++) {
-		encontrar[i]
-		arr.push(getIndicesOf(encontrar[i], texto))
-	}
-
-	var merged = [].concat.apply([], arr)
-
-	var mergedNsorted =  merged.sort(function(a,b){return a - b})
-	
-	uniqueArray = mergedNsorted.filter(function(item, pos) {
-	    return mergedNsorted.indexOf(item) == pos;
-	})
-	return uniqueArray
-}
 
 
-function findUnsplittables(analizedWord){
-	return getIndicesOfThese(unsplittables,analizedWord)
-}
+
 
 //returns a full word analysis
 function aWanalysis(analizedWord){
 	var analizedWordObj = {
 		aWoriginal:analizedWord,
 		analizedWord:analizedWord.toLowerCase(),
-		aWSplitted: aWsplittedF (analizedWord.toLowerCase()),
+		aWSplitted: analizedWord.toLowerCase().split(''),
 		aWvowelOrConsonant:VowelOrConsonant(analizedWord.toLowerCase()),
 		aWindexOfVowels: indexOfVowels(VowelOrConsonant(analizedWord.toLowerCase())),
-		indexOfDiptongos:findDiptongos(aWsplittedF (analizedWord.toLowerCase())),
-		indexOfHiatos:findHiatos(aWsplittedF (analizedWord.toLowerCase())),
-		indexOfdobleLetters:findDobleLetters(aWsplittedF (analizedWord.toLowerCase())),
-		indexOfunsplittables:findUnsplittables(analizedWord),
+		indexOfDiptongos:findDiptongos(analizedWord.toLowerCase().split('')),
+		indexOfHiatos:findHiatos(analizedWord.toLowerCase().split('')),
+		indexOfdobleLetters:findAndIndexMultipleStrings(dobleLetters,analizedWord),
+		indexOfunsplittables:findAndIndexMultipleStrings(unsplittables,analizedWord),
 		aWTotalySplitted:false,
 	}
 	return analizedWordObj
@@ -395,10 +338,11 @@ function test(testedValues){
 	return errorsArray
 }
 
-var perro = 'Caminando'
- console.log(aWanalysis2(perro))
+//var perro = 'Caminando' 
+// console.log(aWanalysis2(perro)) 
 // console.log(cutAWordInSylables(perro))
-//console.log(test(testedValues))
+console.log(test(testedValues))
 // console.log(testWordSplitting(testedValues[0][0],testedValues[1]))
 
 
+////
