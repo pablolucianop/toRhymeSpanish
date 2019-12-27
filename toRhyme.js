@@ -10,7 +10,13 @@ var dobleLetters = ['rr', 'll', 'tt']
 var analizedWord = 'gato'
 var unsplittables = ['br','cr','dr', 'gr', 'fr', 'kr', 'tr','bl', 'cl', 'gl', 'fl', 'kl', 'pl', 'gü', 'ch']
 
-
+var hiatos= openVowels.map((currElement, index) => {
+//return every two character combination of open vowels, so every posible hiato
+	return openVowels.map((currElement1, index) => {  return currElement1 +currElement})
+	})
+//add to the list of hiatos, hiatos with "h" in the middle
+var hiatoWithH = hiatos.flat(Infinity).map((currElement1, index) => {  return currElement1[0]+"h"+currElement1[1]})
+var allPosibleHiatos = hiatos.flat(Infinity).concat(hiatoWithH)
 
 
 
@@ -93,6 +99,8 @@ var indexHiatosF = (analizedWord)=>{
 
 
 
+
+
 //returns a full word analysis
 function aWanalysis(analizedWord){
 	var analizedWordObj = {
@@ -101,7 +109,7 @@ function aWanalysis(analizedWord){
 		aWSplitted: analizedWord.toLowerCase().split(''),
 		aWindexOfVowels: findAndIndexMultipleStrings(vowels,analizedWord),
 		indexOfDiptongos:findDiptongos(analizedWord.toLowerCase().split('')),
-		indexOfHiatos:indexHiatosF(analizedWord),
+		indexOfHiatos:findAndIndexMultipleStrings(allPosibleHiatos,analizedWord),
 		indexOfdobleLetters:findAndIndexMultipleStrings(dobleLetters,analizedWord),
 		indexOfunsplittables:findAndIndexMultipleStrings(unsplittables,analizedWord),
 		aWTotalySplitted:false,
