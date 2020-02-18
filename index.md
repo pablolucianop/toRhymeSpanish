@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="trstyle.css">
@@ -20,5 +20,3 @@
 		 <h1 class="printers" id="texto"></h1>
 		  <div>
 	</div>
-	</body>
-</html>
