@@ -7,6 +7,7 @@ body {
   height:720px;
   width: 720px;
    margin:0 auto;
+   /* background-color: #3639d1; */
 
 }
 #top {
@@ -14,20 +15,23 @@ body {
   width: 720px;
   background-color: #edde9c;
   display: flex;
+  margin:0 auto;
 }
 #bottom {
   height:360px;
   width: 720px;
   background-color: #edde9c;
+  align-self: flex-end;
 }
 #top1 {
   align-self: flex-end;
-  padding: 80px 80px 4ex 8px ;
+  padding: 0px 0px 4ex 8px ; 
+
 }
 
 h1 {
   text-align: center;
-  font: bold 600% Sans-Serif;
+  font: bold 400% Sans-Serif;
   padding: 8px 0;
 }
 #e {
@@ -37,7 +41,7 @@ h1 {
 h2 {
   margin: 0 auto;
   font: bold 150% Sans-Serif;
-  padding: 8px 0;
+  /* padding: 8px 0; */
   bottom: 0;
 }
 
