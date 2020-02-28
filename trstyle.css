@@ -2,31 +2,24 @@ body {
   background-color: #edde9c;
 }
 
-#spellSpace {
+.spellSpace {
   padding: 40px 0;
   height:720px;
   width: 720px;
    margin:0 auto;
-   /* background-color: #3639d1; */
-
 }
-#top {
+.top {
   height:260px;
   width: 720px;
-  background-color: #edde9c;
   display: flex;
   margin:0 auto;
+    align-self: flex-end;
+  padding: 0px 0px 4ex 8px ; 
 }
-#bottom {
+.bottom {
   height:360px;
   width: 720px;
-  background-color: #edde9c;
   align-self: flex-end;
-}
-#top1 {
-  align-self: flex-end;
-  padding: 0px 0px 4ex 8px ; 
-
 }
 
 h1 {
@@ -34,15 +27,15 @@ h1 {
   font: bold 400% Sans-Serif;
   padding: 8px 0;
 }
-#e {
- cursor: pointer;
+
+#spell {
+  cursor: pointer;
   text-align: center;
 }
 
 h2 {
   margin: 0 auto;
   font: bold 150% Sans-Serif;
-  /* padding: 8px 0; */
   bottom: 0;
 }
 
@@ -55,7 +48,7 @@ h2 {
 
 
 
-
+/* button css */
 input {
   font-size: 1.5em;
   outline: none; // Chrome outline
@@ -77,8 +70,6 @@ input {
   z-index: 0;
 
 }
-
-
 
 .printers {
 
