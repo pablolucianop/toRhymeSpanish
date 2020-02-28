@@ -353,7 +353,7 @@ showSyllables=() =>{
 	var inputWord = cutAWordInSylables(input)
 	var presentedWord = []
 	showNextSyllable=()=>{
-		changeBackground()
+		// changeBackground()
 		presentedWord.push(inputWord[presentedWord.length ] )
 	  	document.getElementById("texto").innerHTML = presentedWord.join(" - ");  
   	}
